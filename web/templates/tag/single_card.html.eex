@@ -17,7 +17,7 @@
 		<%= render Vutuv.UserView, "card_list.html", Map.put(assigns, :users, @reccomended_users) %>
 	<% end %>
   <%= if @conn.assigns[:current_user] && !(has_tag?(assigns[:current_user], assigns[:tag])) do %>
-  <%= button to: user_tag_path(@conn, :create, @current_user, tag_param: [value: Vutuv.Tag.resolve_name(@tag, @conn.assigns[:locale])]), method: :post, class: "link_button", form: [class: "link_button_form card__morelink-border"] do %>
+  <%= button to: user_tag_path(@conn, :create, @current_user, tag_param: [value: Vutuv.Tag.resolve_name(@tag, @conn.assigns[:locale])]), method: :post, class: "link_button" do %>
   <i class="icon icon--plus"></i> Add This tag
   <% end %>
   <% end %>

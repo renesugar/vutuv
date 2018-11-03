@@ -34,7 +34,7 @@
           </td>
           <td>
           <%= if @current_user && same_user?(@user, @current_user) do %>
-          <%= button to: user_tag_path(@conn, :delete, @user, user_tag), method: :delete, class: "delete button button--icon button--small", style: "height:25px;margin-right:-5px;", form: [class: "button button--icon button--small"] do %>
+          <%= button to: user_tag_path(@conn, :delete, @user, user_tag), method: :delete, class: "delete button button--icon button--small", style: "height:25px;margin-right:-5px;" do %>
           <i class="icon icon--delete"></i>
           <% end %>
           <% end %>

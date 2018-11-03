@@ -43,7 +43,7 @@ defmodule Vutuv.Avatar do
     nginx_path = user.active_slug
     |> String.replace(".","/")
 
-    sym_link_path = "/var/www/www.vutuv.de/avatars/#{nginx_path}/#{timestamp}"
+		sym_link_path = Application.get_env(:vutuv, Vutuv.Endpoint)[:symlink_path]<>"/#{nginx_path}/#{timestamp}"
 
     if File.exists?(sym_link_path) do
       true
@@ -63,11 +63,12 @@ defmodule Vutuv.Avatar do
     image_file_name = Vutuv.Avatar.url({user.avatar, user}, version, signed: true)
     |> String.replace(~r/web\/static\/assets\/images\/avatars\/[0-9]+\//,"")
 
-    "/avatars/#{nginx_path}/#{timestamp}/#{image_file_name}"
+		"/avatars/#{nginx_path}/#{timestamp}/#{image_file_name}"
   end
 
   def binary(user, version) do
-    Vutuv.Avatar.url({user.avatar, user}, version, signed: true)
+    Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:avatar_path]<>Vutuv.Avatar.url({user.avatar, user}, version, signed: true)
+		|> URI.decode
     |> validate_file
     |> read_file
   end

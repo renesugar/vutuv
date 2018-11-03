@@ -33,7 +33,7 @@
           <td><%= resolve_priority job_posting_tag.priority %></td>
 
           <td>
-            <%= button to: user_job_posting_tag_path(@conn, :delete, @user, @job_posting, job_posting_tag), method: :delete, class: "button button--icon button--small", form: [class: "button button--icon button--small"] do %>
+            <%= button to: user_job_posting_tag_path(@conn, :delete, @user, @job_posting, job_posting_tag), method: :delete, class: "button button--icon button--small" do %>
             <i class="icon icon--delete"></i>
             <% end %>
           </td>

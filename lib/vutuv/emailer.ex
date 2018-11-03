@@ -36,20 +36,33 @@ defmodule Vutuv.Emailer do
     template = "payment_information_email_#{get_locale(user.locale)}"
     accounting_email = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:accounting_email]
 
+		admin_name  = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:admin_name]
+		admin_email = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:admin_email]
+	
+		url = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:public_url]
+		
     new_email()
     |> put_text_layout({Vutuv.EmailView, "#{template}.text"})
     |> assign(:recuiter_package, recuiter_package)
     |> assign(:recruiter_subscription, recruiter_subscription)
+		|> assign(:url, url)
     |> assign(:user, user)
     |> to("#{Vutuv.UserHelpers.name_for_email_to_field(user)} <#{email}>")
     |> bcc("#{accounting_email}")
-    |> from("vutuv <info@vutuv.de>")
+    |> from("#{admin_name} <#{admin_email}>")
     |> subject(Vutuv.Gettext.gettext("Order")<>" \"#{recuiter_package.name}\" "<>Vutuv.Gettext.gettext("subscription"))
     |> render("#{template}.text")
   end
 
   def issue_invoice(recruiter_subscription, user, _email) do
+		template = "trigger_recruiter_subscription_invoice_#{get_locale(user.locale)}"
+				
     accounting_email = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:accounting_email]
+
+		admin_name  = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:admin_name]
+		admin_email = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:admin_email]
+		
+		url = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:public_url]
 
     if accounting_email do
       recuiter_package = Vutuv.Repo.get(Vutuv.RecruiterPackage, recruiter_subscription.recruiter_package_id)
@@ -58,25 +71,33 @@ defmodule Vutuv.Emailer do
       |> put_text_layout({Vutuv.EmailView, "trigger_recruiter_subscription_invoice.text"})
       |> assign(:recruiter_subscription, recruiter_subscription)
       |> assign(:recuiter_package, recuiter_package)
+		  |> assign(:url, url)
       |> assign(:user, user)
       |> to("#{accounting_email}")
-      |> from("vutuv <info@vutuv.de>")
-      |> subject("Rechnung: #{recuiter_package.name} für #{user.first_name} #{user.last_name}")
-      |> render("trigger_recruiter_subscription_invoice.text")
+      |> from("#{admin_name} <#{admin_email}>")
+      |> subject(Vutuv.Gettext.gettext("Invoice")<>" \"#{recuiter_package.name}\" "<>Vutuv.Gettext.gettext("subscription"))
+      |> render("#{template}.text")
       |> Vutuv.Mailer.deliver_now
     end
   end
 
 
   def verification_notice(user) do
-    email = Vutuv.Repo.one(Ecto.Query.from e in Vutuv.Email, where: e.user_id == ^user.id, limit: 1, select: e.value)
-    template = "verification_confirmation_#{get_locale(user.locale)}"
+		template = "verification_confirmation_#{get_locale(user.locale)}"
 
+    email = Vutuv.Repo.one(Ecto.Query.from e in Vutuv.Email, where: e.user_id == ^user.id, limit: 1, select: e.value)
+		
+		admin_name  = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:admin_name]
+		admin_email = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:admin_email]
+		
+		url = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:public_url]
+				
     new_email()
     |> put_text_layout({Vutuv.EmailView, "#{template}.text"})
+		|> assign(:url, url)
     |> assign(:user, user)
     |> to("#{Vutuv.UserHelpers.name_for_email_to_field(user)} <#{email}>")
-    |> from("vutuv <info@vutuv.de>")
+    |> from("#{admin_name} <#{admin_email}>")
     |> subject(Vutuv.Gettext.gettext("vutuv Account verified"))
     |> render("#{template}.text")
     |> Vutuv.Mailer.deliver_now
@@ -108,15 +129,21 @@ defmodule Vutuv.Emailer do
 
     email = Vutuv.Repo.one(Ecto.Query.from e in Vutuv.Email, where: e.user_id == ^user.id, limit: 1, select: e.value)
 
+		admin_name  = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:admin_name]
+		admin_email = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:admin_email]
+		
+		url = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:public_url]
+				
     Gettext.put_locale(Vutuv.Gettext, user.locale)
 
     new_email()
     |> put_text_layout({Vutuv.EmailView, "#{template}.text"})
+		|> assign(:url, url)
     |> assign(:user, user)
     |> assign(:birthday_childs, birthday_childs)
     |> assign(:future_birthday_childs, future_birthday_childs)
     |> to("#{Vutuv.UserHelpers.name_for_email_to_field(user)} <#{email}>")
-    |> from("vutuv <info@vutuv.de>")
+    |> from("#{admin_name} <#{admin_email}>")
     |> subject("#{Vutuv.Gettext.gettext("Birthday")}: #{truncated_subject}")
     |> render("#{template}.text")
   end
@@ -135,10 +162,19 @@ defmodule Vutuv.Emailer do
 
       email = Vutuv.Repo.one(Ecto.Query.from e in Vutuv.Email, where: e.user_id == ^user.id, limit: 1, select: e.value)
 
+      url = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:public_url]
+		
+			admin_name  = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:admin_name]
+			admin_email = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:admin_email]
+
+			contact_name  = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:contact_name]
+			contact_email = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:contact_email]
+			
       Gettext.put_locale(Vutuv.Gettext, user.locale)
 
       new_email()
       |> put_text_layout({Vutuv.EmailView, "#{template}.text"})
+			|> assign(:url, url)
       |> assign(:user, user)
       |> assign(:follower_count, follower_count)
       |> assign(:followee_count, followee_count)
@@ -152,15 +188,19 @@ defmodule Vutuv.Emailer do
       # |> assign(:enrichable_work_experiences, Vutuv.Fullcontact.fullcontact_work_experiences(user))
       # |> assign(:enrichable_avatar, Vutuv.Fullcontact.fullcontact_avatars(user) |> List.first)
       |> to("#{Vutuv.UserHelpers.name_for_email_to_field(user)} <#{email}>")
-      |> bcc("Stefan Wintermeyer <stefan.wintermeyer@amooma.de>")
-      |> from("vutuv <info@vutuv.de>")
+      |> bcc("#{contact_name} <#{contact_email}>")
+      |> from("#{admin_name} <#{admin_email}>")
       |> subject("#{Vutuv.Gettext.gettext("Enrich your vutuv profile")}")
       |> render("#{template}.text")
     end
   end
 
   defp gen_email(link, pin, email, user, template, email_subject) do
-    url = Application.get_env(:vutuv, Vutuv.Endpoint)[:public_url]
+    url = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:public_url]
+		
+		admin_name  = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:admin_name]
+		admin_email = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:admin_email]
+		
     new_email()
     |> put_text_layout({Vutuv.EmailView, "#{template}.text"})
     |> assign(:link, link)
@@ -168,7 +208,7 @@ defmodule Vutuv.Emailer do
     |> assign(:url, url)
     |> assign(:user, user)
     |> to("#{Vutuv.UserHelpers.name_for_email_to_field(user)} <#{email}>")
-    |> from("vutuv <info@vutuv.de>")
+    |> from("#{admin_name} <#{admin_email}>")
     |> subject(email_subject)
     |> render("#{template}.text")
   end

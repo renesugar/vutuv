@@ -11,7 +11,20 @@ defmodule Vutuv.PageController do
       |> Ecto.Changeset.put_assoc(:emails, [%Email{}])
     prefetch = "/listings/most_followed_users"
 
-    render conn, "index.html", changeset: changeset, body_class: "stretch", prefetch: prefetch
+		organization_name  = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:organization_name]
+		
+		website_name = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:website_name]
+	
+		socialmedia_url = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:socialmedia_url]
+		
+		tor_host = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:tor_host]
+				
+		conn
+		|> assign(:organization_name, organization_name)
+		|> assign(:website_name, website_name)
+		|> assign(:socialmedia_url, socialmedia_url)
+		|> assign(:tor_host, tor_host)
+    |> render("index.html", changeset: changeset, body_class: "stretch", prefetch: prefetch)
   end
 
   def redirect_index(conn, _params) do
@@ -52,7 +65,7 @@ defmodule Vutuv.PageController do
   end
 
   def most_followed_users(conn, _params) do
-    users = Repo.all(from u in User, left_join: f in assoc(u, :followers), group_by: u.id, order_by: [fragment("count(?) DESC", f.id), u.first_name, u.last_name], limit: 100)
+    users = Repo.all(from u in User, left_join: f in assoc(u, :followers), distinct: u.id, order_by: [fragment("count(?) DESC", f.id), u.first_name, u.last_name], limit: 100)
     render conn, "most_followed_users.html", users: users
   end
 

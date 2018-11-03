@@ -48,7 +48,7 @@
             <%= link to: admin_recruiter_package_path(@conn, :edit, recruiter_package), class: "button button--icon button--small" do %>
             <i class="icon icon--edit"></i>
             <% end %>
-            <%= button to: admin_recruiter_package_path(@conn, :delete, recruiter_package), method: :delete, class: "button button--icon button--small", form: [class: "button button--icon button--small"] do %>
+            <%= button to: admin_recruiter_package_path(@conn, :delete, recruiter_package), method: :delete, class: "button button--icon button--small" do %>
             <i class="icon icon--delete"></i>
             <% end %>
           </td>

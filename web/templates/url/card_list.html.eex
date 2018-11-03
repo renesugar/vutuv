@@ -13,7 +13,7 @@
     <div class="text">
       <%= if same_user?(@user, @current_user) do %>
       	<div class="btns-right">
-        <%= button to: user_url_path(@conn, :delete, @user, url), method: :delete, class: "btn btn-sm btn-danger btn-icon", form: [class: "btn-form"] do %>
+        <%= button to: user_url_path(@conn, :delete, @user, url), method: :delete, class: "btn btn-sm btn-danger btn-icon" do %>
           <i>
             <%= render Vutuv.IconView, "close.html" %>
           </i>

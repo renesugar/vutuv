@@ -14,7 +14,7 @@
     <div class="imagebox__intro">
       <h1><%= gettext "Please check your INBOX." %></h1>
       <p><%= gettext "You'll receive an email with a login link." %></p>
-      <p><%= gettext "Updates about vutuv are available at " %><a href="https://twitter.com/vutuv">https://twitter.com/vutuv</a></p>
+      <p><%= gettext "Updates about vutuv are available at " %><a href="<%= @socialmedia_url %>"><%= @socialmedia_url %></a></p>
     </div>
   </section>
 </div>

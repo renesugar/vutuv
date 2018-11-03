@@ -71,7 +71,7 @@ defmodule Vutuv.UserController do
         :followers,
         :coupons,
         user_tags: from(u in Vutuv.UserTag, left_join: e in assoc(u, :endorsements), left_join: t in assoc(u, :tag),
-          order_by: t.slug, group_by: u.id, limit: ^user_tag_limit, # order_by: fragment("count(?) DESC", e.id) orders by endorsements
+          order_by: t.slug, distinct: u.id, limit: ^user_tag_limit, # order_by: fragment("count(?) DESC", e.id) orders by endorsements
           preload: [:endorsements]),
         followee_connections: {Connection.latest(3), [:followee]},
         follower_connections: {Connection.latest(3), [:follower]},
@@ -113,10 +113,20 @@ defmodule Vutuv.UserController do
       reccomended_users = Vutuv.Tag.reccomended_users(Repo.get(Vutuv.Tag, user_tag.tag_id))
       if reccomended_users = [user] do
         # It's an exotic tag and only the user itself comes up.
-        reccomended_users = Repo.all(from u in User, left_join: f in assoc(u, :followers), group_by: u.id, order_by: [fragment("count(?) DESC", f.id), u.first_name, u.last_name], limit: 6)
+        reccomended_users = Repo.all(
+					from u in User,
+					left_join: f in assoc(u, :followers),
+					order_by: [desc: count(f.id), asc: u.first_name, asc: u.last_name],
+					group_by: u.id,
+					limit: 6)
       end
     else
-      reccomended_users = Repo.all(from u in User, left_join: f in assoc(u, :followers), group_by: u.id, order_by: [fragment("count(?) DESC", f.id), u.first_name, u.last_name], limit: 6)
+      reccomended_users = Repo.all(
+				from u in User,
+				left_join: f in assoc(u, :followers),
+				order_by: [desc: count(f.id), asc: u.first_name, asc: u.last_name],
+				group_by: u.id,
+				limit: 6)
     end
     work_string_length = 35
 

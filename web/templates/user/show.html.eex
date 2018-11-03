@@ -11,7 +11,7 @@
       <h1>
         <%= full_name(@user) %>
         <%= if !@user.verified and admin_visitor?(@conn) do %>
-          <%= button to: admin_user_path(@conn, :update, user_id: @user.id), class: "button button--icon navigation__icon", form: [class: "button button--icon"], method: "post" do %>
+          <%= button to: admin_user_path(@conn, :update, user_id: @user.id), class: "button button--icon navigation__icon", method: "post" do %>
             <i title="<%= gettext("Verify") %>" class="icon icon--lock"></i>
           <% end %>
         <% end %>
@@ -35,11 +35,11 @@
         <% end %>
         <%= if is_visitor?(@conn, @current_user) do %>
           <%= if user_follows_user?(@current_user, @user) do %>
-            <%= button to: connection_path(@conn, :delete, user_follows_user?(@current_user, @user)), method: :delete , class: "button button-link button--unfollow", form: [class: "button--unfollow"] do %>
+            <%= button to: connection_path(@conn, :delete, user_follows_user?(@current_user, @user)), method: :delete , class: "button button-link button--unfollow" do %>
               <i class="icon icon--minus"></i> Unfollow
             <% end %>
           <%= else %>
-            <%= button to: connection_path(@conn, :create, connection: %{follower_id: @current_user_id, followee_id: @user.id}), method: :post, class: "button button-link", form: [class: "button--slim"] do %>
+            <%= button to: connection_path(@conn, :create, connection: %{follower_id: @current_user_id, followee_id: @user.id}), method: :post, class: "button button-link" do %>
               <i class="icon icon--plus"></i> Follow
             <% end %>
           <% end %>
@@ -321,21 +321,21 @@
     "@type": "ListItem",
     "position": 1,
     "item": {
-      "@id": "https://www.vutuv.de",
+      "@id": "https://<%= @conn.host %>",
       "name": "vutuv"
     }
   },{
     "@type": "ListItem",
     "position": 2,
     "item": {
-      "@id": "https://www.vutuv.de/users/",
+      "@id": "https://<%= @conn.host %>/users/",
       "name": "users"
     }
   },{
     "@type": "ListItem",
     "position": 3,
     "item": {
-      "@id": "https://www.vutuv.de<%= user_path(@conn, :show, @user) %>",
+      "@id": "https://<%= @conn.host %><%= user_path(@conn, :show, @user) %>",
       "name": "<%= full_name(@user) %>"
     }
   }]

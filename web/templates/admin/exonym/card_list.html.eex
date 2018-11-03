@@ -26,7 +26,7 @@
           <%= render Vutuv.IconView, "pencil.html" %>
         </i>
         <% end %>
-        <%= button to: admin_exonym_path(@conn, :delete, exonym), method: :delete, class: "btn btn-sm btn-danger btn-icon", form: [class: "btn-form"] do %>
+        <%= button to: admin_exonym_path(@conn, :delete, exonym), method: :delete, class: "btn btn-sm btn-danger btn-icon" do %>
         <i class="icon">
           <%= render Vutuv.IconView, "close.html" %>
         </i>

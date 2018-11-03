@@ -33,7 +33,7 @@ Lebenslauf
 <% end %>
 
 Sie können diese Daten unter der folgenden URL einsehen und verändern:
-https://www.vutuv.de/users/<%= @user.active_slug %>
+<%= @url %>/users/<%= @user.active_slug %>
 
 Bitte nehmen Sie sich einen Moment Zeit und fügen Sie noch fehlende
 Informationen hinzu (z.B. Webseiten und Social Media Accounts).

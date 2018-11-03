@@ -43,7 +43,7 @@
             <%= link to: admin_tag_localization_path(@conn, :edit, @tag, tag_localization), class: "button button--icon button--small" do %>
             <i class="icon icon--edit"></i>
             <% end %>
-            <%= button to: admin_tag_localization_path(@conn, :delete, @tag, tag_localization), method: :delete, class: "button button--icon button--small", form: [class: "button button--icon button--small"] do %>
+            <%= button to: admin_tag_localization_path(@conn, :delete, @tag, tag_localization), method: :delete, class: "button button--icon button--small" do %>
             <i class="icon icon--delete"></i>
             <% end %>
           </td>

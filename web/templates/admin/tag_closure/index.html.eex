@@ -34,7 +34,7 @@
           <td><%= tag_closure.depth %></td>
           <td><%= link gettext("View related"), to: admin_tag_closure_path(@conn, :index, tag_closure.parent) %></td>
           <td>
-          <%= button to: admin_tag_closure_path(@conn, :delete, @tag, tag_closure), method: :delete, class: "button button--icon button--small", form: [class: "button button--icon button--small"] do %>
+          <%= button to: admin_tag_closure_path(@conn, :delete, @tag, tag_closure), method: :delete, class: "button button--icon button--small" do %>
           <i class="icon icon--delete"></i>
           <% end %>
           </td>
@@ -64,7 +64,7 @@
           <td><%= tag_closure.depth %></td>
           <td><%= link gettext("View related"), to: admin_tag_closure_path(@conn, :index, tag_closure.child) %></td>
           <td>
-          <%= button to: admin_tag_closure_path(@conn, :delete, @tag, tag_closure), method: :delete, class: "button button--icon button--small", form: [class: "button button--icon button--small"] do %>
+          <%= button to: admin_tag_closure_path(@conn, :delete, @tag, tag_closure), method: :delete, class: "button button--icon button--small" do %>
           <i class="icon icon--delete"></i>
           <% end %>
           </td>

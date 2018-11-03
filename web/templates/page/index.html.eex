@@ -65,7 +65,7 @@
       </p>
       <p><a href="<%= session_path(@conn, :new) %>" class="imagebox__alreadymember"><%= gettext "Already a member? Sign in here." %></a></p>
       <p><%= gettext "We reserve the right to stop this service or delete your account anytime without warning." %></p>
-      <p><%= gettext "Tor user? => " %><a href="http://vutuvh2rmz3ynydm.onion/">vutuvh2rmz3ynydm.onion</a></p>
+      <p><%= gettext "Tor user? => " %><a href="https://<%= @tor_host %>/"><%= @organization_name %></a></p>
     <% end %>
   </section>
 </div>
@@ -74,10 +74,10 @@
 {
   "@context": "http://schema.org",
   "@type": "Organization",
-  "name": "vutuv",
-  "url": "https://www.vutuv.de",
+  "name": "<%= @organization_name %>",
+  "url": "https://<%= @conn.host %>",
   "sameAs": [
-    "https://twitter.com/vutuv"
+    "<%= @socialmedia_url %>"
   ]
 }
 </script>
@@ -86,8 +86,8 @@
 {
   "@context": "http://schema.org",
   "@type": "WebSite",
-  "name": "vutuv",
-  "alternateName": "www.vutuv.de",
-  "url": "https://www.vutuv.de"
+  "name": "<%= @website_name %>",
+  "alternateName": "<%= @conn.host %>",
+  "url": "https://<%= @conn.host %>"
 }
 </script>

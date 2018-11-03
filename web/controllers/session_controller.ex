@@ -8,9 +8,21 @@ defmodule Vutuv.SessionController do
   def create(conn, %{"session" => %{"email" => email}}) do
     case Vutuv.Auth.login_by_email(conn, email) do
       {:ok, conn} ->
+				organization_name  = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:organization_name]
+		
+				website_name = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:website_name]
+	
+				socialmedia_url = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:socialmedia_url]
+		
+				tor_host = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:tor_host]
+				
         case conn.cookies["_vutuv_fbs_temp"] do
           nil ->
             conn
+						|> assign(:organization_name, organization_name)
+						|> assign(:website_name, website_name)
+						|> assign(:socialmedia_url, socialmedia_url)
+						|> assign(:tor_host, tor_host)
             |> render("user_login.html", body_class: "stretch")
           _ ->
             conn
@@ -65,6 +77,7 @@ defmodule Vutuv.SessionController do
 
   def delete(conn, _) do
     user = conn.assigns[:current_user]
+				
     conn
     |> Vutuv.Auth.logout()
     |> redirect(to: user_path(conn, :show, user))

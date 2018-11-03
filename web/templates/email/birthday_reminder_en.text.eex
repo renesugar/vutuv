@@ -8,7 +8,7 @@ the following vutuv contacts celebrate their birthday today:
 
 <%= for(birthday_child <- @birthday_childs) do %>
 - <%= birthday_child %> (<%= format_date(birthday_child.birthdate, @user.locale) %>)
-  https://www.vutuv.de/users/<%= birthday_child.active_slug %>
+  <%= @url %>/users/<%= birthday_child.active_slug %>
 <% end %>
 
 <%= if @future_birthday_childs do %>
@@ -20,12 +20,12 @@ A couple of more birthdays in the near future:
 
 <%= for(birthday_child <- @future_birthday_childs) do %>
 - <%= birthday_child %> (<%= format_date(birthday_child.birthdate, @user.locale) %>)
-  https://www.vutuv.de/users/<%= birthday_child.active_slug %>
+  <%= @url %>/users/<%= birthday_child.active_slug %>
 <% end %>
 
 <% end %>
 Please change your settings at
-https://www.vutuv.de/users/<%= @user.active_slug %>/edit
+<%= @url %>/users/<%= @user.active_slug %>/edit
 to deactivate this birthday reminder email.
 <%= render "_signature_en.text" %>
 

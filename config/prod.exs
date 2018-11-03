@@ -21,7 +21,17 @@ config :vutuv, Vutuv.Endpoint,
   root: ".",
   version: Mix.Project.config[:version],
   locales: ~w(en de),
-  public_url: "https://www.vutuv.de/"
+  public_url: "https://www.vutuv.de",
+  avatar_path: "/srv/vutuv/avatars",
+  symlink_path: "/var/www/www.vutuv.de/avatars",
+  admin_name: "vutuv",
+  admin_email: "info@vutuv.de",
+  contact_name: "Stefan Wintermeyer",
+  contact_email: "stefan.wintermeyer@amooma.de",
+  organization_name: "vutuv",
+  website_name: "vutuv",
+  socialmedia_url: "https://twitter.com/vutuv",
+  tor_host: "vutuvh2rmz3ynydm.onion"
 
 # Do not print debug messages in production
 config :logger, level: :error
@@ -30,9 +40,9 @@ config :logger, level: :error
 # These are demo values.
 # You have to change them for your prod env.
 config :vutuv, Vutuv.Repo,
-  adapter: Ecto.Adapters.MySQL,
-  username: "root",
-  password: "",
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
   database: "vutuv_prod",
   hostname: "localhost",
   pool_size: 10

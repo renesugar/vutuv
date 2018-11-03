@@ -24,6 +24,7 @@ defmodule Vutuv.SearchQueryController do
   def create(conn, %{"search_query" => search_query_params}) do
     user = conn.assigns[:current_user]
     search_query_params = Map.put(search_query_params, "is_email?", validate_email(search_query_params["value"]))
+		search_query_params = Map.put(search_query_params, "value", String.downcase(search_query_params["value"]))
     results = search search_query_params["value"], search_query_params["is_email?"]
     Repo.one(from q in SearchQuery, where: q.value == ^search_query_params["value"])
     |> insert_or_update(search_query_params, requester_assoc(user), results)
@@ -37,9 +38,11 @@ defmodule Vutuv.SearchQueryController do
         |> put_flash(:info, gettext("Search query executed successfully."))
         |> redirect(to: search_query_path(conn, :show, query))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        conn
+        |> render("new.html", changeset: changeset)
       {:error, _failure, changeset, _} ->
-        render(conn, "new.html", changeset: changeset)
+        conn
+        |> render("new.html", changeset: changeset)
     end
   end 
 

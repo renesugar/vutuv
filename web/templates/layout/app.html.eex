@@ -29,7 +29,7 @@
   <nav class="navigation">
     <div>
     <%= if @conn.assigns[:current_user] do %>
-      <%= button to: session_path(@conn, :delete, @current_user), method: "delete", class: "button button--icon navigation__icon", form: [style: "flex: 1;", class: "button button--icon"] do %>
+      <%= button to: session_path(@conn, :delete, @current_user), method: "delete", class: "button button--icon navigation__icon" do %>
       <i title="<%= gettext("Log Out") %>" class="icon icon--lock"></i>
       <% end %>
     <% else %>
@@ -53,5 +53,6 @@
       <a href="https://github.com/vutuv/vutuv/issues/new"><%= gettext "Submit a bugreport or a feature request." %></a> | <a href="/privacy-policy.html"><%= gettext "Privacy Policy" %></a> | <%= link gettext("About us"), to: page_path(@conn, :impressum) %></a> | vutuv <%= Application.spec(:vutuv, :vsn) %>
     </p>
   </footer>
+	<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 </body>
 </html>

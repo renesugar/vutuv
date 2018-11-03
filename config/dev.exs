@@ -14,7 +14,17 @@ config :vutuv, Vutuv.Endpoint,
   cache_static_lookup: false,
   check_origin: false,
   watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin"]],
-  public_url: "http://localhost:4000/"
+  public_url: "http://localhost:4000",
+  avatar_path: "/Users/sonya/projects/vutuv",
+  symlink_path: "/var/www/yourdomainname/avatars",
+  admin_name: "vutuv",
+  admin_email: "info@vutuv.de",
+  contact_name: "Stefan Wintermeyer",
+  contact_email: "stefan.wintermeyer@amooma.de",
+  organization_name: "vutuv",
+  website_name: "vutuv",
+  socialmedia_url: "https://twitter.com/vutuv",
+  tor_host: "vutuvh2rmz3ynydm.onion"
 
 # Watch static and templates for browser reloading.
 config :vutuv, Vutuv.Endpoint,
@@ -37,9 +47,9 @@ config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
 config :vutuv, Vutuv.Repo,
-  adapter: Ecto.Adapters.MySQL,
-  username: "root",
-  password: "",
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
   database: "vutuv_dev",
   hostname: "localhost",
   pool_size: 10

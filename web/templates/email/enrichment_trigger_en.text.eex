@@ -34,7 +34,7 @@ Work Experiences
 <% end %>
 
 You can view and edit these changes at
-https://www.vutuv.de/users/<%= @user.active_slug %>
+<%= @url %>/users/<%= @user.active_slug %>
 
 Please take a moment to add missing information (e.g. websites or social media
 accounts of yours).

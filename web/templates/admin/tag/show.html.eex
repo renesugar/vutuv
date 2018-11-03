@@ -17,7 +17,7 @@
 <div class="card-list">
   <section class="card">
     <div class="btns-right">
-      <%= button to: admin_tag_path(@conn, :delete, @tag), method: :delete, class: "pull-right btn btn-xs btn-danger btn-icon", form: [class: "btn-form"] do %>
+      <%= button to: admin_tag_path(@conn, :delete, @tag), method: :delete, class: "pull-right btn btn-xs btn-danger btn-icon" do %>
         <i>
           <%= render Vutuv.IconView, "close.html" %>
         </i>
@@ -70,7 +70,7 @@
               <%= render Vutuv.IconView, "pencil.html" %>
             </i>
             <% end %>
-            <%= button to: admin_tag_localization_path(@conn, :delete, @tag, tag_localization), method: :delete, class: "btn btn-sm btn-danger btn-icon", form: [class: "btn-form"] do %>
+            <%= button to: admin_tag_localization_path(@conn, :delete, @tag, tag_localization), method: :delete, class: "btn btn-sm btn-danger btn-icon" do %>
             <i class="icon">
               <%= render Vutuv.IconView, "close.html" %>
             </i>
@@ -111,7 +111,7 @@
             <%= link to: admin_tag_synonym_path(@conn, :edit, @tag, tag_synonym), class: "button button--icon button--small" do %>
             <i class="icon icon--edit"></i>
             <% end %>
-            <%= button to: admin_tag_synonym_path(@conn, :delete, @tag, tag_synonym), method: :delete, class: "button button--icon button--small", form: [class: "button button--icon button--small"] do %>
+            <%= button to: admin_tag_synonym_path(@conn, :delete, @tag, tag_synonym), method: :delete, class: "button button--icon button--small" do %>
             <i class="icon icon--delete"></i>
             <% end %>
           </td>

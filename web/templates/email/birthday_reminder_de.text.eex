@@ -8,7 +8,7 @@ heute feiern Ihre folgenden vutuv Kontakte Geburtstag:
 
 <%= for(birthday_child <- @birthday_childs) do %>
 - <%= birthday_child %> (<%= format_date(birthday_child.birthdate, @user.locale) %>)
-  https://www.vutuv.de/users/<%= birthday_child.active_slug %>
+  <%= @url %>/users/<%= birthday_child.active_slug %>
 <% end %>
 
 <%= if @future_birthday_childs do %>
@@ -20,7 +20,7 @@ Weitere Geburtstage in den nächsten Tagen:
 
 <%= for(birthday_child <- @future_birthday_childs) do %>
 - <%= birthday_child %> (<%= format_date(birthday_child.birthdate, @user.locale) %>)
-  https://www.vutuv.de/users/<%= birthday_child.active_slug %>
+  <%= @url %>/users/<%= birthday_child.active_slug %>
 <% end %>
 
 Noch ist genügend Zeit ein Geschenk zu versenden.
@@ -28,7 +28,7 @@ Hier der Link zur Amazon Geschenke-Seite:
 http://amzn.to/2jzIilp
 
 <% end %>
-Unter https://www.vutuv.de/users/<%= @user.active_slug %>/edit
+Unter <%= @url %>/users/<%= @user.active_slug %>/edit
 können Sie den Versand diese E-Mails deaktivieren.
 <%= render "_signature_de.text" %>
 

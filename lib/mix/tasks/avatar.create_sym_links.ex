@@ -19,14 +19,14 @@ defmodule Mix.Tasks.Avatar.CreateSymLinks do
       nginx_path = user.active_slug
       |> String.replace(".","/")
 
-      source_path = "/srv/vutuv/avatars/#{user.id}"
-      destination_path = "/var/www/www.vutuv.de/avatars/#{nginx_path}/#{timestamp}"
+      source_path = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:avatar_path]<>"/#{user.id}"
+      destination_path = Application.fetch_env!(:vutuv, Vutuv.Endpoint)[:symlink_path]<>"/#{nginx_path}/#{timestamp}"
 
       # Create the sym link
       #
-      if File.exists?(source_path) && File.exists?("/var/www/www.vutuv.de/avatars/") do
+      if File.exists?(source_path) && File.exists?(Path.dirname(Path.dirname(destination_path))) do
         unless File.exists?(destination_path) do
-          File.mkdir_p("/var/www/www.vutuv.de/avatars/#{nginx_path}/")
+          File.mkdir_p(Path.dirname(destination_path))
           File.ln_s(source_path, destination_path)
         end
       end

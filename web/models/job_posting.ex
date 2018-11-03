@@ -134,7 +134,7 @@ defmodule Vutuv.JobPosting do
       left_join: s in assoc(u, :recruiter_subscriptions),
       where: jt.tag_id in ^tag_ids and s.paid == true,
       limit: 2,
-      group_by: j.id,
+      distinct: j.id,
       order_by: [
         desc: fragment("SUM(CASE WHEN ? = 2 THEN 1 ELSE 0 END)",jt.priority),
         desc: fragment("SUM(CASE WHEN ? = 1 THEN 1 ELSE 0 END)",jt.priority),

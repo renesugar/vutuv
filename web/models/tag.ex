@@ -98,20 +98,22 @@ defmodule Vutuv.Tag do
   def related_users(_, nil), do: []
 
   def related_users(tag, current_user) do
-    (Vutuv.Repo.all(from u in assoc(current_user, :followers),
+		  (Vutuv.Repo.all(from u in assoc(current_user, :followers),
       left_join: us in assoc(u, :user_tags),
       left_join: e in assoc(us, :endorsements),
+			select: [[u], count(e.id)],
       where: us.tag_id == ^tag.id,
-      order_by: fragment("count(?) DESC", e.id), #most endorsed
       group_by: u.id,
+      order_by: [desc: count(e.id)],
       limit: 10)
     ++
     Vutuv.Repo.all(from u in assoc(current_user, :followees),
       left_join: us in assoc(u, :user_tags),
       left_join: e in assoc(us, :endorsements),
+			select: [[u], count(e.id)],
       where: us.tag_id == ^tag.id,
-      order_by: fragment("count(?) DESC", e.id), #most endorsed
       group_by: u.id,
+      order_by: [desc: count(e.id)], #most endorsed
       limit: 10))
     |> Enum.uniq_by(&(&1.id))
   end
@@ -121,8 +123,8 @@ defmodule Vutuv.Tag do
       left_join: us in assoc(u, :user_tags),
       left_join: e in assoc(us, :endorsements),
       where: us.tag_id == ^tag.id,
-      order_by: fragment("count(?) DESC", e.id), #most endorsed
       group_by: u.id,
+      order_by: [desc: count(e.id)], #most endorsed
       limit: 10)
   end
 
